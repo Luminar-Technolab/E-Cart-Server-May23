@@ -10,5 +10,7 @@ router.get('/products/all',productController.getAllProductController)
 router.get('/products/view/:id',productController.getAProductController)
 //register
 router.post('/user/register',userController.registerController)
+//login
+router.post('/user/login',userController.loginController)
 
 module.exports = router                  
