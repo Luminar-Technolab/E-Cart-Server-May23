@@ -19,3 +19,25 @@ exports.addToWishlistController = async (req,res)=>{
         res.status(401).json(err)
     }
 }
+
+//getwishlist
+exports.getUserWishlistController = async (req,res)=>{
+    const userId = req.payload
+    try{
+        const userWishlist = await wishlists.find({userId})
+        res.status(200).json(userWishlist)
+    }catch(err){
+        res.status(401).json(err)
+    }
+}
+
+//removewishlistitem
+exports.removeWishlistItemCOntroller = async (req,res)=>{
+    const {id} = req.params
+    try{
+        const removeItem = await wishlists.findByIdAndDelete({_id:id})
+        res.status(200).json(removeItem)
+    }catch(err){
+        res.status(401).json(err)
+    }
+}
