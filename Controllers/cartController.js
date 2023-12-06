@@ -5,7 +5,7 @@ exports.addtocartController = async (req,res)=>{
     const userId = req.payload
     const {id,title,price,description,category,image,rating,quantity}= req.body
     try{
-        const existingProduct = await carts.findOne({id})
+        const existingProduct = await carts.findOne({id,userId})
         if(existingProduct){
             //increment product quantity
             existingProduct.quantity+=1
@@ -42,7 +42,7 @@ exports.getUserCartController = async (req,res)=>{
 exports.incrementCartCountController = async (req,res)=>{
     const {id} = req.params
     try{
-        const cartItem = await carts.findOne({id})
+        const cartItem = await carts.findOne({_id:id})
         if(cartItem){
             cartItem.quantity += 1
             cartItem.totalPrice = cartItem.quantity * cartItem.price
@@ -60,7 +60,7 @@ exports.incrementCartCountController = async (req,res)=>{
 exports.decrementCartCountController = async (req,res)=>{
     const {id} = req.params
     try{
-        const cartItem = await carts.findOne({id})
+        const cartItem = await carts.findOne({_id:id})
         if(cartItem){
             cartItem.quantity -= 1
             if(cartItem.quantity==0){
@@ -74,6 +74,28 @@ exports.decrementCartCountController = async (req,res)=>{
         }else{
             res.status(404).json("Product not found!!!")
         }
+    }catch(err){
+        res.status(401).json(err)
+    }
+}
+
+//removeitem
+exports.removeCartItemController = async (req,res)=>{
+    const {id} = req.params
+    try{
+        await carts.deleteOne({_id:id})
+        res.status(200).json("item removed!!!")
+    }catch(err){
+        res.status(401).json(err)
+    }
+}
+
+//empty cart
+exports.emptyCartController = async (req,res)=>{
+    const userId = req.payload
+    try{
+        await carts.deleteMany({userId})
+        res.status(200).json("Your Cart is Empty")
     }catch(err){
         res.status(401).json(err)
     }

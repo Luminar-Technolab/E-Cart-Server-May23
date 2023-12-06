@@ -5,7 +5,7 @@ exports.addToWishlistController = async (req,res)=>{
     const {id,title,price,description,category,image,rating}= req.body
     const userId = req.payload
     try{
-        const existingProduct = await wishlists.findOne({id})
+        const existingProduct = await wishlists.findOne({id,userId})
         if(existingProduct){
             res.status(406).json("Product already exist in your wishlist!!!")
         }else{

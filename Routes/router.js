@@ -29,6 +29,9 @@ router.get('/user/cart',jwtMiddleware,cartController.getUserCartController)
 router.get('/user/cart/increment/:id',jwtMiddleware,cartController.incrementCartCountController)
 //decrement cart quantity
 router.get('/user/cart/decrement/:id',jwtMiddleware,cartController.decrementCartCountController)
-
+//removecartItem
+router.delete('/user/cart/remove/:id',jwtMiddleware,cartController.removeCartItemController)
+//emptyCart
+router.delete('/user/cart/empty',jwtMiddleware,cartController.emptyCartController)
 
 module.exports = router                  
